@@ -1,10 +1,8 @@
 import random
 
-#players = ['player', 'computer1', 'computer2', 'computer3']  # the others are computers
 playerstatus=[]
 namebase=['성하', '수경', '태윤', '승현', '명지']
 
-# player 를 '입력하는 이' 로 가정하고 코딩하시면 됩니다
 # 함수명에 이니셜 혹은 게임명을 적어 겹칠 일이 없게 해주쎄용!
 # 충돌을 막기 위해 최대한 공통부분을 수정하지 말아주세요! 나중에 깔끔하게 하면 됩니다
 
@@ -56,7 +54,10 @@ if start == 'y':
     #player 인스턴스 생성
     inputplayer=player(playerName, playerCup, 0)
     playerstatus.append(inputplayer)
-    
+    #유저 네임과 namebase 겹치면 안되니까 지워줌
+    if playerName in namebase:
+        namebase.remove(playerName)
+         
     
     while True:
         
@@ -70,6 +71,7 @@ if start == 'y':
     friends=random.sample(namebase,playerNum) #이름 랜덤으로 뽑아서 리스트 생성
     
     for i in range(playerNum):
+        
         x=player(friends[i],random(1,5),0)
         playerstatus.append(x)
         print("오늘 함께 취할 친구는", x.name,"입니다!","(치사량:", x.dead,")")
@@ -84,19 +86,22 @@ if start == 'y':
     print('5. 더 게임 오브 데스')
     
     while True:
-        # 두번째 게임부터는 자동으로 choice 가 내려져야 하기 때문에 이 코드 역시 바뀔겁니다!
+        ####이부분만 건들여 주세요 함수 선언은 자유롭게
         choice = input("오늘의 게임은??? (1-5번 중에 골라주세요) : ")
         if choice == "1":
-        # 여기에 exception 해결하시고 menu 를 쓰시던 여기에 쓰시던 게임 코드 작성하시면 됩니다
+        #김태윤
 
         elif choice == "2":
-
+        #장명지    
 
         elif choice == "3":
+        #강수경
 
         elif choice == "4":
+        #황성하
 
         elif choice == "5":
+        #신승현
             
         else:
             print("올바른 번호를 입력해주세요")
