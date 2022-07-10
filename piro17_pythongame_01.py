@@ -75,7 +75,7 @@ if start == 'y':
 
     for i in range(playerNum):
 
-        x=player(friends[i],random(1,5),0)
+        x=player(friends[i],random.randint(1,5),0)
         playerstatus.append(x)
         print("오늘 함께 취할 친구는", x.name,"입니다!","(치사량:", x.dead,")")
     print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
@@ -125,27 +125,29 @@ if start == 'y':
                     print(e)
                 else:
                     # continue game
+
                     thisOrder = random.sample(playerstatus, playerNum)
                     for i in range(floorLimit):
                         currPerson = thisOrder[i % len(thisOrder)]
-                        print(currPerson, i + 1, '층')
+                        print(currPerson.name, i + 1, '층')
                         if i == floorLimit - 1:
                             # we are at the end floor ... 'currPerson' lost
                             # TODO: now update currPerson's cur drink status
-                            print(currPerson, '님은 저희와 함께 갈 수 없게 되었습니다... ㅎ 한잔하세요!')
+                            print(currPerson.name, '님은 저희와 함께 갈 수 없게 되었습니다... ㅎ 한잔하세요!')
                             currPerson.cur += 1
+                    break
 
-        elif choice == "2":
-        #장명지
-
-        elif choice == "3":
-        #강수경
-
-        elif choice == "4":
-        #황성하
-
-        elif choice == "5":
-        #신승현
+        # elif choice == "2":
+        # #장명지
+        #
+        # elif choice == "3":
+        # #강수경
+        #
+        # elif choice == "4":
+        # #황성하
+        #
+        # elif choice == "5":
+        # #신승현
 
         else:
             print("올바른 번호를 입력해주세요")
