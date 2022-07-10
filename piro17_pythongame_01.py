@@ -252,8 +252,7 @@ if start == 'y':
             choice = str(random.randint(1,5));
             print(playerstatus[selectNumber].name,'가 선택한 게임은', choice, '입니다.')
         
-        selectNumber +=1;
-        selectNumber %= playerNum+1;
+        
 
         if choice == "1":
         #김태윤
@@ -302,18 +301,22 @@ if start == 'y':
                     break
         elif choice == "2":
             
+            subwayPlayerNum = selectNumber;
             answer = []
-
-            while True :
-                try:
-                    line = int(input("지하철 노선을 입력하세요(1~9) : "))
-                except ValueError:
-                    print("올바른 숫자를 입력해 주세요.")
-                    continue
-                if 1<= line <= 9:
-                    break
-                else:
-                    print("다시입력하세요(ex.1)")
+            if subwayPlayerNum == 0:
+                while True :
+                    try:
+                        line = int(input("지하철 노선을 입력하세요(1~9) : "))
+                    except ValueError:
+                        print("올바른 숫자를 입력해 주세요.")
+                        continue
+                    if 1<= line <= 9:
+                        break
+                    else:
+                        print("다시입력하세요(ex.1)")
+            else:
+                line = random.randint(1,9)
+                print(playerstatus[subwayPlayerNum].name, '님이 선택한 노선은', line, '입니다.')
 
             url = "http://openapi.seoul.go.kr:8088/456468477370693137374e75764b54/xml/SearchSTNBySubwayLineInfo/1/97/ / /{line}호선".format(line=line)
 
@@ -332,7 +335,6 @@ if start == 'y':
 
 
             already=[]
-            subwayPlayerNum = selectNumber;
             while True :
                 
                 if subwayPlayerNum == 0:
@@ -461,6 +463,8 @@ if start == 'y':
 
         #현재 상태 보여주고 판단
         hp()
+        selectNumber +=1;
+        selectNumber %= playerNum+1;
 
     # 'n' 을 선택, 게임이 시작되지 않습니다
 else:
