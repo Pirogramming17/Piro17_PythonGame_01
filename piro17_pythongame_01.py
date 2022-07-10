@@ -1,4 +1,7 @@
 import random
+from tkinter import Y
+
+import openpyxl
 
 playerstatus=[]
 namebase=['성하', '수경', '태윤', '승현', '명지']
@@ -72,7 +75,7 @@ if start == 'y':
     
     for i in range(playerNum):
         
-        x=player(friends[i],random(1,5),0)
+        x=player(friends[i],random.randint(1,5),0)
         playerstatus.append(x)
         print("오늘 함께 취할 친구는", x.name,"입니다!","(치사량:", x.dead,")")
     print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
@@ -88,19 +91,59 @@ if start == 'y':
     while True:
         ####이부분만 건들여 주세요 함수 선언은 자유롭게
         choice = input("오늘의 게임은??? (1-5번 중에 골라주세요) : ")
-        if choice == "1":
+        if choice == "1":continue
         #김태윤
 
         elif choice == "2":
+            import pandas as pd
+            excel_file = '../Piro17_PythonGame_01/Piro17_PythonGame_01/SUB1.csv'
+            df = pd.read_csv(excel_file, encoding='CP949')
+            print(df)
+            
+
+            subway = list(df)
+            print(subway)
+            answer = []
+
+            while True :
+                line = input("지하철 노선을 입력하세요(1~4호선) : ")
+                if line in ['1호선','2호선','3호선','4호선']:
+                    answer.extend(subway[int(line[0])-1])
+                    break
+
+                else:
+                    print("다시입력하세요(ex.서울 1호선)")
+
+            del(answer[0])
+            print(answer)
+
+
+            already=[]
+            while True :
+                station=input(line+'의 정차역 입력(종료=0):')
+                if station == '0':
+                    print("지하철 게임 종료!")
+                    break
+                else:
+                    if(station in answer):
+                        if(station not in already):
+                            already.append(station)
+                            print(already)
+                            print("존재하는 역입니다! 통과!!!")
+                        else:
+                            print("이미 입력하신 역입니다!! 벌칙!!!")
+                    else:
+                        print("존재하지 않는 역입니다!! 벌칙!!!")
+
         #장명지    
 
-        elif choice == "3":
+        elif choice == "3":continue
         #강수경
 
-        elif choice == "4":
+        elif choice == "4":continue
         #황성하
 
-        elif choice == "5":
+        elif choice == "5":continue
         #신승현
             
         else:
