@@ -1,4 +1,9 @@
 import random
+from tkinter import Y
+import requests
+from bs4 import BeautifulSoup as bs
+from soupsieve import select
+
 
 from soupsieve import select
 
@@ -274,7 +279,67 @@ if start == 'y':
                             currPerson.cur += 1
                     break
         elif choice == "2":
-            continue
+            
+            answer = []
+
+            while True :
+                try:
+                    line = int(input("지하철 노선을 입력하세요(1~9) : "))
+                except ValueError:
+                    print("올바른 숫자를 입력해 주세요.")
+                    continue
+                if 1<= line <= 9:
+                    break
+                else:
+                    print("다시입력하세요(ex.1)")
+
+            url = "http://openapi.seoul.go.kr:8088/456468477370693137374e75764b54/xml/SearchSTNBySubwayLineInfo/1/97/ / /{line}호선".format(line=line)
+
+            res = requests.get(url)
+            soup = bs(res.text, 'xml')
+            for i in soup.find_all('STATION_NM'):
+                answer.append(i.text);
+
+
+            computerAnswer = answer;
+            url = "http://openapi.seoul.go.kr:8088/456468477370693137374e75764b54/xml/SearchSTNBySubwayLineInfo/1/97/ / /{line}호선".format(line=(line%9)+1)
+            res = requests.get(url)
+            soup = bs(res.text, 'xml')
+            for i in soup.find_all('STATION_NM'):
+                computerAnswer.append(i.text);
+
+
+            already=[]
+            subwayPlayerNum = selectNumber;
+            while True :
+                
+                if subwayPlayerNum == 0:
+                    station=input('{line}의 정차역 입력(종료=0):'.format(line=line))
+                else:
+                    station = random.choice(computerAnswer);
+                    print(playerstatus[subwayPlayerNum].name, "의 입력은", station, "입니다.")
+
+                if station == '0':
+                    print("지하철 게임 종료!")
+                    break
+                else:
+                    if(station in answer):
+                        if(station not in already):
+                            already.append(station)
+                            print(already)
+                            print("존재하는 역입니다! 통과!!!")
+                        else:
+                            print("이미 입력하신 역입니다!! 벌칙!!!")
+                            break
+                    else:
+                        print("존재하지 않는 역입니다!! 벌칙!!!")
+                        break
+                subwayPlayerNum +=1;
+                subwayPlayerNum %= playerNum+1;
+
+
+            print(playerstatus[subwayPlayerNum].name,'님이 한잔 마십니다!')
+            playerstatus[subwayPlayerNum].cur += 1 
         #장명지    
             print('2')
 
