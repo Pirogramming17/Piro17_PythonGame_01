@@ -14,8 +14,8 @@ namebase=['성하', '수경', '태윤', '승현', '명지']
 # 성하-업다운 4
 # 승현-더게임오브데스 5
 
-class player: 
-    #주량 이름 현재마신양 
+class player:
+    #주량 이름 현재마신양
     def __init__(self, name, dead, cur):
         self.name = name
         self.dead = dead
@@ -28,11 +28,15 @@ def hp():
         print(playerstatus[i].name,"은(는) 지금까지",playerstatus[i].cur,"! 치사량까지",playerstatus[i].dead-playerstatus[i].cur )
         if(playerstatus[i].dead-playerstatus[i].cur==0 ):
             gotosleep.append(playerstatus[i].name)
- 
+
     print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
     if len(gotosleep)>=1:
         print(gotosleep[0],"(이)가 전사했습니다...꿈나라에서는 편히 쉬시길...zzz")
         exit()
+        
+class exceedLimit(Exception):
+    def __init__(self):
+        super().__init__('도달할 수 없는 층입니다!')
 
 
 def three_six_nine_player(i):
@@ -159,37 +163,37 @@ print('어 술게임 좀 해요? 아 잘 모르시는구나ㅎ 그러면 어쩔 
 start = input('게임을 진행할까요/? (y/n) : ')
 if start == 'y':
     playerName = input('오늘 거하게 취해볼 당신의 이름은? : ')
-    
+
     while True:
-    
+
         playerCup = int(input('당신의 치사량(주량)은 얼마만큼인가요? (1~5중 선택해주세요) : '))
-    
+
         if (1<=playerCup<=5) :
             break
-        else: 
+        else:
             print("올바른 값을 입력해 주세요.")
-    
 
-    
+
+
     #player 인스턴스 생성
     inputplayer=player(playerName, playerCup, 0)
     playerstatus.append(inputplayer)
     #유저 네임과 namebase 겹치면 안되니까 지워줌
     if playerName in namebase:
         namebase.remove(playerName)
-         
-    
+
+
     while True:
-        
+
         playerNum = int(input('함께 취할 친구들은 얼마나 필요하신가요?(사회적 거리두기로 인해 최대 3명까지 초대할 수 있어요!) : '))
         if (1<=playerNum<=3) :
             break
-        else: 
+        else:
             print("올바른 값을 입력해 주세요.")
-    
+
     #computer 인스턴스 생성 개수 입력받아서 랜덤으로 이른,주량 정함
     friends=random.sample(namebase,playerNum) #이름 랜덤으로 뽑아서 리스트 생성
-    
+
     for i in range(playerNum):
         
         x=player(friends[i],random.randint(1,5),0)
@@ -197,21 +201,62 @@ if start == 'y':
         print("오늘 함께 취할 친구는", x.name,"입니다!","(치사량:", x.dead,")")
     print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
     hp()
-    
+
     print('오늘의 Alcohol GAME')
     print('1. 아파트')
     print('2. 지하철 2호선')
     print('3. 369')
     print('4. 업다운')
     print('5. 더 게임 오브 데스')
-    
+
     while True:
         ####이부분만 건들여 주세요 함수 선언은 자유롭게
         choice = input("오늘의 게임은??? (1-5번 중에 골라주세요) : ")
         if choice == "1":
         #김태윤
-            continue
+            print(
+                """
+                 :::::::::::::
+                #============$
+                $@@@@@@@@@@@@@
+                  #         ! 
+                  # @@$.@@@ !
+                  #-; @.@ = !
+                  # ;;: ;;; !
+                  #.@@#.@@@ !
+                  #-; @.@ = ! .@$;
+                  #-*~@.@~$ ! ,$ @  -~
+                  #         ! ~= @.~#;#
+                  #  .,,,   ! @  $~;*.#
+                  #  :   ,  ! @ @=:*  @
+                  #  :   ,  !,$   @#  @
+                  #  :   ,  ! @ @=:!  ,=
+                  #  :   ,  !  @@~ ;~*.#
+                *$@$$#$$$$$$#$.@@  *#@@ 
+                #.           ~  @   !$
+                :::::::::::::::::::::::~~.""")
+            print(playerName, '님이 좋아하는 아파트~게임~ 아파트아파트아파트~~!!!', sep='')
+            print('선택하신 층수에 도달할때까지 팀원 중 한명씩 올라갑니다! 선택하신 층수에 도착하는 사람이 마시는 사람~!')
+            while True:
+                try:
+                    floorLimit = int(input('오늘은 몇층까지 올라가나요~~~??? (층수는 1 에서 30 사이로 골라주세요!) : '))
+                    if floorLimit < 1 or floorLimit > 30:
+                        raise exceedLimit
+                except exceedLimit as e:
+                    print(e)
+                else:
+                    # continue game
 
+                    thisOrder = random.sample(playerstatus, playerNum)
+                    for i in range(floorLimit):
+                        currPerson = thisOrder[i % len(thisOrder)]
+                        print(currPerson.name, i + 1, '층')
+                        if i == floorLimit - 1:
+                            # we are at the end floor ... 'currPerson' lost
+                            # TODO: now update currPerson's cur drink status
+                            print(currPerson.name, '님은 저희와 함께 갈 수 없게 되었습니다... ㅎ 한잔하세요!')
+                            currPerson.cur += 1
+                    break
         elif choice == "2":
             continue
         #장명지    
@@ -275,11 +320,11 @@ if start == 'y':
         else:
             print("올바른 번호를 입력해주세요")
             continue
-            
-        #현재 상태 보여주고 판단
-        hp()    
 
-# 'n' 을 선택, 게임이 시작되지 않습니다
+        #현재 상태 보여주고 판단
+        hp()
+
+    # 'n' 을 선택, 게임이 시작되지 않습니다
 else:
     exit()
     
