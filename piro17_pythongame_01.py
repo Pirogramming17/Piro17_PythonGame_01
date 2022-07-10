@@ -260,6 +260,7 @@ if start == 'y':
         elif choice == "2":
             continue
         #장명지    
+            print('2')
 
         elif choice == "3":
         #강수경
@@ -314,8 +315,37 @@ if start == 'y':
             updownResult = Updown(playerstatus);
             playerstatus[updownResult].cur += 1;
 
-        elif choice == "5":continue
-        #신승현
+        elif choice == "5":
+            game_num_ssh = int(input("2 이상 8 이하의 정수를 외쳐 주세요! "))
+    
+            point_ssh = []
+
+            i_ssh = 0
+            while i_ssh+1 <= playerNum + 1:
+                p_num_ssh = random.randint(1, playerNum + 1)
+                if p_num_ssh == i+1:
+                    continue
+                else:
+                    point_ssh.append(p_num_ssh)
+                i_ssh += 1
+                        
+
+            for index, value in enumerate(point_ssh):
+                print(playerstatus[index].name + '👉' + playerstatus[value-1].name)
+
+            i_ssh = 0
+            count_ssh = 1
+            while count_ssh <= game_num_ssh:
+                print(f'{playerstatus[i_ssh].name} : {i+1}! 🧨 👉 {playerstatus[point_ssh[i_ssh]-1].name}')
+                if count_ssh == game_num_ssh:
+                    print(playerstatus[i_ssh].name + ' : ' + '으악😵')
+                    playerstatus[i_ssh].cur += 1
+                    break
+                else:     
+                    i_ssh = point_ssh[i_ssh] - 1
+                    count_ssh += 1
+                    continue
+
             
         else:
             print("올바른 번호를 입력해주세요")
