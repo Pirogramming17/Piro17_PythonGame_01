@@ -31,7 +31,10 @@ def hp():
     if len(gotosleep)>=1:
         print(gotosleep[0],"(이)가 전사했습니다...꿈나라에서는 편히 쉬시길...zzz")
         exit()
-
+        
+class exceedLimit(Exception):
+    def __init__(self):
+        super().__init__('도달할 수 없는 층입니다!')
 
 #################################################
 print("ALCOHOL GAME")
@@ -113,22 +116,22 @@ if start == 'y':
                 :::::::::::::::::::::::~~.""")
             print(playerName, '님이 좋아하는 아파트~게임~ 아파트아파트아파트~~!!!', sep='')
             print('선택하신 층수에 도달할때까지 팀원 중 한명씩 올라갑니다! 선택하신 층수에 도착하는 사람이 마시는 사람~!')
-            floorLimit = int(input('오늘은 몇층까지 올라가나요~~~??? (층수는 1 에서 30 사이로 골라주세요!) : '))
-            if floorLimit < 1 or floorLimit > 30:
-                acceptable = False
-                while not acceptable:
-                    print('도달할 수 없는 층입니다!')
+            while True:
+                try:
                     floorLimit = int(input('오늘은 몇층까지 올라가나요~~~??? (층수는 1 에서 30 사이로 골라주세요!) : '))
-                    acceptable = True if 1 <= floorLimit <= 30 else False
-            # continue game
-            thisOrder = random.sample(playerstatus, playerNum)
-            for i in range(floorLimit):
-                currPerson = thisOrder[i % len(thisOrder)]
-                print(currPerson, i + 1, '층')
-                if i == floorLimit - 1:
-                    # we are at the end floor ... 'currPerson' lost
-                    print(currPerson, '님이 오늘의 루저입니다 크크킄...')
-                    # TODO: now update currPerson's cur drink status
+                    if floorLimit < 1 or floorLimit > 30:
+                        raise exceedLimit
+                except exceedLimit as e:
+                    print(e)
+                else:
+                    # continue game
+                    thisOrder = random.sample(playerstatus, playerNum)
+                    for i in range(floorLimit):
+                        currPerson = thisOrder[i % len(thisOrder)]
+                        print(currPerson, i + 1, '층')
+                        if i == floorLimit - 1:
+                            # we are at the end floor ... 'currPerson' lost
+                            # TODO: now update currPerson's cur drink status
 
         elif choice == "2":
         #장명지
