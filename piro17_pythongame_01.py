@@ -89,6 +89,69 @@ def three_six_nine_computer(i):
             return 1
     
     
+def Updown(playerstatus):
+    print('''
+------------------------------------------------------------------------------
+
+ _   _ ______  ______                           _____                         
+| | | || ___ \ |  _  \                         |  __ \                        
+| | | || |_/ / | | | |  ___  __      __ _ __   | |  \/  __ _  _ __ ___    ___ 
+| | | ||  __/  | | | | / _ \ \ \ /\ / /| '_ \  | | __  / _` || '_ ` _ \  / _ \
+| |_| || |     | |/ / | (_) | \ V  V / | | | | | |_\ \| (_| || | | | | ||  __/
+ \___/ \_|     |___/   \___/   \_/\_/  |_| |_|  \____/ \__,_||_| |_| |_| \___|
+                                                                              
+                                                                              
+
+------------------------------------------------------------------------------                                                                       
+''')
+    players= []
+    for i in range(len(playerstatus)):
+        players.append(playerstatus[i].name)
+
+    updownNumber = random.randint(1, 50);
+    updownHigh = 50;
+    updownLow = 1;
+    updown = 0;
+    updownPlayer = random.randint(0, len(players) - 1);
+    while True:
+        if updownPlayer == 0:
+            try:
+                updown = int(input("당신의 숫자는?"))
+            except ValueError:
+                print("숫자를 입력하세요!")
+                continue;
+            if updown < updownLow or updown > updownHigh:
+                print("숫자를 다시 입력하세요!")
+                continue;
+            else:
+                if updown == updownNumber:
+                    print("정답입니다!")
+                    break;
+                elif updown > updownNumber:
+                    print("Down!")
+                    updownHigh = updown - 1;
+                elif updown < updownNumber:
+                    print("Up!")
+                    updownLow = updown + 1;
+                updownPlayer +=1;
+                updownPlayer %= len(players)
+        else:
+            updown = random.randint(updownLow, updownHigh);
+            print(players[updownPlayer] + "의 숫자는 " + str(updown) + "입니다.");
+            if updown == updownNumber:
+                print("정답입니다!")
+                break;
+            elif updown > updownNumber:
+                print("Down!")
+                updownHigh = updown - 1;
+            elif updown < updownNumber:
+                print("Up!")
+                updownLow = updown + 1;
+            updownPlayer +=1;
+            updownPlayer %= len(players);
+    #결과출력
+    print("정답자는 " + players[updownPlayer] + "입니다.\n정답자는 한잔 드세요!");
+    return updownPlayer;
     
 #################################################
 print("ALCOHOL GAME")
@@ -203,6 +266,8 @@ if start == 'y':
         elif choice == "4":
             continue
         #황성하
+            updownResult = Updown(playerstatus);
+            playerstatus[updownResult].cur += 1;
 
         elif choice == "5":continue
         #신승현
