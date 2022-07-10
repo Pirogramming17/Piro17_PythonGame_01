@@ -72,7 +72,7 @@ if start == 'y':
     
     for i in range(playerNum):
         
-        x=player(friends[i],random(1,5),0)
+        x=player(friends[i],random.randint(1,5),0)
         playerstatus.append(x)
         print("오늘 함께 취할 친구는", x.name,"입니다!","(치사량:", x.dead,")")
     print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
@@ -90,18 +90,51 @@ if start == 'y':
         choice = input("오늘의 게임은??? (1-5번 중에 골라주세요) : ")
         if choice == "1":
         #김태윤
+            print('1')
 
         elif choice == "2":
         #장명지    
+            print('2')
 
         elif choice == "3":
         #강수경
+            print('3')
 
         elif choice == "4":
         #황성하
+            print('4')
 
         elif choice == "5":
-        #신승현
+            game_num_ssh = int(input("2 이상 8 이하의 정수를 외쳐 주세요! "))
+    
+            point_ssh = []
+
+            i_ssh = 0
+            while i_ssh+1 <= playerNum + 1:
+                p_num_ssh = random.randint(1, playerNum + 1)
+                if p_num_ssh == i+1:
+                    continue
+                else:
+                    point_ssh.append(p_num_ssh)
+                i_ssh += 1
+                        
+
+            for index, value in enumerate(point_ssh):
+                print(playerstatus[index].name + '👉' + playerstatus[value-1].name)
+
+            i_ssh = 0
+            count_ssh = 1
+            while count_ssh <= game_num_ssh:
+                print(f'{playerstatus[i_ssh].name} : {i+1}! 🧨 👉 {playerstatus[point_ssh[i_ssh]-1].name}')
+                if count_ssh == game_num_ssh:
+                    print(playerstatus[i_ssh].name + ' : ' + '으악😵')
+                    playerstatus[i_ssh].cur += 1
+                    break
+                else:     
+                    i_ssh = point_ssh[i_ssh] - 1
+                    count_ssh += 1
+                    continue
+
             
         else:
             print("올바른 번호를 입력해주세요")
