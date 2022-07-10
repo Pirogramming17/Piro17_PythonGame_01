@@ -32,6 +32,55 @@ def hp():
         print(gotosleep[0],"(이)가 전사했습니다...꿈나라에서는 편히 쉬시길...zzz")
         exit()
 
+def Updown(playerstatus):
+    players= []
+    for i in range(len(playerstatus)):
+        players.append(playerstatus[i].name)
+
+    updownNumber = random.randint(1, 50);
+    updownHigh = 50;
+    updownLow = 1;
+    updown = 0;
+    updownPlayer = random.randint(0, len(players) - 1);
+    while True:
+        if updownPlayer == 0:
+            try:
+                updown = int(input("당신의 숫자는?"))
+            except ValueError:
+                print("숫자를 입력하세요!")
+                continue;
+            if updown < updownLow or updown > updownHigh:
+                print("숫자를 다시 입력하세요!")
+                continue;
+            else:
+                if updown == updownNumber:
+                    print("정답입니다!")
+                    break;
+                elif updown > updownNumber:
+                    print("Down!")
+                    updownHigh = updown - 1;
+                elif updown < updownNumber:
+                    print("Up!")
+                    updownLow = updown + 1;
+                updownPlayer +=1;
+                updownPlayer %= len(players)
+        else:
+            updown = random.randint(updownLow, updownHigh);
+            print(players[updownPlayer] + "의 숫자는 " + str(updown) + "입니다.");
+            if updown == updownNumber:
+                print("정답입니다!")
+                break;
+            elif updown > updownNumber:
+                print("Down!")
+                updownHigh = updown - 1;
+            elif updown < updownNumber:
+                print("Up!")
+                updownLow = updown + 1;
+            updownPlayer +=1;
+            updownPlayer %= len(players);
+    #결과출력
+    print("정답자는 " + players[updownPlayer] + "입니다.\n 다른사람들은 모두 한잔씩 드세요!");
+    return updownPlayer;
     
 #################################################
 print("ALCOHOL GAME")
