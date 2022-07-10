@@ -1,5 +1,7 @@
 import random
 
+from soupsieve import select
+
 playerstatus=[]
 namebase=['성하', '수경', '태윤', '승현', '명지']
 
@@ -165,14 +167,15 @@ if start == 'y':
     playerName = input('오늘 거하게 취해볼 당신의 이름은? : ')
 
     while True:
-
-        playerCup = int(input('당신의 치사량(주량)은 얼마만큼인가요? (1~5중 선택해주세요) : '))
-
-        if (1<=playerCup<=5) :
-            break
+        try:
+            playerCup = int(input('당신의 치사량(주량)은 얼마만큼인가요? (1~5중 선택해주세요) : '))
+        except ValueError:
+            print("숫자를 입력해 주세요!")
         else:
-            print("올바른 값을 입력해 주세요.")
-
+            if (1<=playerCup<=5) :
+                break
+            else:
+                print("올바른 값을 입력해 주세요.")
 
 
     #player 인스턴스 생성
@@ -184,12 +187,15 @@ if start == 'y':
 
 
     while True:
-
-        playerNum = int(input('함께 취할 친구들은 얼마나 필요하신가요?(사회적 거리두기로 인해 최대 3명까지 초대할 수 있어요!) : '))
-        if (1<=playerNum<=3) :
-            break
+        try:
+            playerNum = int(input('함께 취할 친구들은 얼마나 필요하신가요?(사회적 거리두기로 인해 최대 3명까지 초대할 수 있어요!) : '))
+        except ValueError:
+            print("숫자를 입력해 주세요!")
         else:
-            print("올바른 값을 입력해 주세요.")
+            if (1<=playerNum<=3) :
+                break
+            else:
+                print("올바른 값을 입력해 주세요.")
 
     #computer 인스턴스 생성 개수 입력받아서 랜덤으로 이른,주량 정함
     friends=random.sample(namebase,playerNum) #이름 랜덤으로 뽑아서 리스트 생성
@@ -208,10 +214,20 @@ if start == 'y':
     print('3. 369')
     print('4. 업다운')
     print('5. 더 게임 오브 데스')
-
+    selectNumber = 0;
     while True:
         ####이부분만 건들여 주세요 함수 선언은 자유롭게
-        choice = input("오늘의 게임은??? (1-5번 중에 골라주세요) : ")
+
+        
+        if selectNumber == 0:
+            choice = input("오늘의 게임은??? (1-5번 중에 골라주세요) : ")
+        else: 
+            choice = str(random.randint(1,5));
+            print(playerstatus[selectNumber].name,'가 선택한 게임은', choice, '입니다.')
+        
+        selectNumber +=1;
+        selectNumber %= playerNum+1;
+
         if choice == "1":
         #김태윤
             print(
@@ -247,7 +263,7 @@ if start == 'y':
                 else:
                     # continue game
 
-                    thisOrder = random.sample(playerstatus, playerNum)
+                    thisOrder = random.sample(playerstatus, playerNum+1)
                     for i in range(floorLimit):
                         currPerson = thisOrder[i % len(thisOrder)]
                         print(currPerson.name, i + 1, '층')
@@ -310,7 +326,6 @@ if start == 'y':
                 break
       
         elif choice == "4":
-            continue
         #황성하
             updownResult = Updown(playerstatus);
             playerstatus[updownResult].cur += 1;
