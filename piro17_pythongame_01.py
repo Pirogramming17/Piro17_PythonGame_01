@@ -1,7 +1,9 @@
 import random
 from tkinter import Y
+import requests
+from bs4 import BeautifulSoup as bs
+from soupsieve import select
 
-import openpyxl
 
 playerstatus=[]
 namebase=['성하', '수경', '태윤', '승현', '명지']
@@ -87,7 +89,7 @@ if start == 'y':
     print('3. 369')
     print('4. 업다운')
     print('5. 더 게임 오브 데스')
-    
+    selectNumber = 1;
     while True:
         ####이부분만 건들여 주세요 함수 선언은 자유롭게
         choice = input("오늘의 게임은??? (1-5번 중에 골라주세요) : ")
@@ -95,32 +97,46 @@ if start == 'y':
         #김태윤
 
         elif choice == "2":
-            import pandas as pd
-            excel_file = '../Piro17_PythonGame_01/Piro17_PythonGame_01/SUB1.csv'
-            df = pd.read_csv(excel_file, encoding='CP949')
-            print(df)
             
-
-            subway = list(df)
-            print(subway)
             answer = []
 
             while True :
-                line = input("지하철 노선을 입력하세요(1~4호선) : ")
-                if line in ['1호선','2호선','3호선','4호선']:
-                    answer.extend(subway[int(line[0])-1])
+                try:
+                    line = int(input("지하철 노선을 입력하세요(1~9) : "))
+                except ValueError:
+                    print("올바른 숫자를 입력해 주세요.")
+                    continue
+                if 1<= line <= 9:
                     break
-
                 else:
-                    print("다시입력하세요(ex.서울 1호선)")
+                    print("다시입력하세요(ex.1)")
 
-            del(answer[0])
-            print(answer)
+            url = "http://openapi.seoul.go.kr:8088/456468477370693137374e75764b54/xml/SearchSTNBySubwayLineInfo/1/97/ / /{line}호선".format(line=line)
+
+            res = requests.get(url)
+            soup = bs(res.text, 'xml')
+            for i in soup.find_all('STATION_NM'):
+                answer.append(i.text);
+
+
+            computerAnswer = answer;
+            url = "http://openapi.seoul.go.kr:8088/456468477370693137374e75764b54/xml/SearchSTNBySubwayLineInfo/1/97/ / /{line}호선".format(line=(line%9)+1)
+            res = requests.get(url)
+            soup = bs(res.text, 'xml')
+            for i in soup.find_all('STATION_NM'):
+                computerAnswer.append(i.text);
 
 
             already=[]
+            subwayPlayerNum = selectNumber;
             while True :
-                station=input(line+'의 정차역 입력(종료=0):')
+                
+                if subwayPlayerNum == 0:
+                    station=input('{line}의 정차역 입력(종료=0):'.format(line=line))
+                else:
+                    station = random.choice(computerAnswer);
+                    print(playerstatus[subwayPlayerNum].name, "의 입력은", station, "입니다.")
+
                 if station == '0':
                     print("지하철 게임 종료!")
                     break
@@ -132,9 +148,16 @@ if start == 'y':
                             print("존재하는 역입니다! 통과!!!")
                         else:
                             print("이미 입력하신 역입니다!! 벌칙!!!")
+                            break
                     else:
                         print("존재하지 않는 역입니다!! 벌칙!!!")
+                        break
+                subwayPlayerNum +=1;
+                subwayPlayerNum %= playerNum+1;
 
+
+            print(playerstatus[subwayPlayerNum].name,'님이 한잔 마십니다!')
+            playerstatus[subwayPlayerNum].cur += 1 
         #장명지    
 
         elif choice == "3":continue
