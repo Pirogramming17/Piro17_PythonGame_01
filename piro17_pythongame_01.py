@@ -341,7 +341,6 @@ if start == 'y':
             print(playerstatus[subwayPlayerNum].name,'님이 한잔 마십니다!')
             playerstatus[subwayPlayerNum].cur += 1 
         #장명지    
-            print('2')
 
         elif choice == "3":
         #강수경
