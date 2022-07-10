@@ -33,6 +33,20 @@ def hp():
         exit()
 
 def Updown(playerstatus):
+    print('''
+------------------------------------------------------------------------------
+
+ _   _ ______  ______                           _____                         
+| | | || ___ \ |  _  \                         |  __ \                        
+| | | || |_/ / | | | |  ___  __      __ _ __   | |  \/  __ _  _ __ ___    ___ 
+| | | ||  __/  | | | | / _ \ \ \ /\ / /| '_ \  | | __  / _` || '_ ` _ \  / _ \
+| |_| || |     | |/ / | (_) | \ V  V / | | | | | |_\ \| (_| || | | | | ||  __/
+ \___/ \_|     |___/   \___/   \_/\_/  |_| |_|  \____/ \__,_||_| |_| |_| \___|
+                                                                              
+                                                                              
+
+------------------------------------------------------------------------------                                                                       
+''')
     players= []
     for i in range(len(playerstatus)):
         players.append(playerstatus[i].name)
@@ -79,7 +93,7 @@ def Updown(playerstatus):
             updownPlayer +=1;
             updownPlayer %= len(players);
     #결과출력
-    print("정답자는 " + players[updownPlayer] + "입니다.\n 다른사람들은 모두 한잔씩 드세요!");
+    print("정답자는 " + players[updownPlayer] + "입니다.\n정답자는 한잔 드세요!");
     return updownPlayer;
     
 #################################################
@@ -148,6 +162,8 @@ if start == 'y':
 
         elif choice == "4":
         #황성하
+            updownResult = Updown(playerstatus);
+            playerstatus[updownResult].cur += 1;
 
         elif choice == "5":
         #신승현
