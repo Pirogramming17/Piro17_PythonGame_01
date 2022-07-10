@@ -3,6 +3,8 @@ import random
 playerstatus=[]
 namebase=['성하', '수경', '태윤', '승현', '명지']
 
+
+
 # 함수명에 이니셜 혹은 게임명을 적어 겹칠 일이 없게 해주쎄용!
 # 충돌을 막기 위해 최대한 공통부분을 수정하지 말아주세요! 나중에 깔끔하게 하면 됩니다
 
@@ -23,7 +25,7 @@ def hp():
     gotosleep=[]
     print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
     for i in range(len(playerstatus)):
-        print(playerstatus[i].name,"은(는) 지금까지",playerstatus[i].cur,"!", "치사량까지",playerstatus[i].dead-playerstatus[i].cur )
+        print(playerstatus[i].name,"은(는) 지금까지",playerstatus[i].cur,"! 치사량까지",playerstatus[i].dead-playerstatus[i].cur )
         if(playerstatus[i].dead-playerstatus[i].cur==0 ):
             gotosleep.append(playerstatus[i].name)
  
@@ -32,6 +34,61 @@ def hp():
         print(gotosleep[0],"(이)가 전사했습니다...꿈나라에서는 편히 쉬시길...zzz")
         exit()
 
+
+def three_six_nine_player(i):
+    
+    a = ['3', '6', '9']
+    num = input('당신의 답은?: ')
+    count = (lambda x: sum([x.count(n) for n in a]))(str(i))
+            
+            
+    if count:
+            answer = '짝'
+            if num == answer:
+                print("맞았습니다!")
+            else:
+                print('Game over!')
+                return 1
+            
+    else:
+        if str(i) == num:
+            print(num)
+        else:
+            print('Game over!')
+            return 1
+                        
+                        
+def three_six_nine_computer(i):
+    num=i
+    
+    a = ['3', '6', '9']
+    count = (lambda x: sum([x.count(n) for n in a]))(str(i))
+    
+    
+    if count:
+            list=[i, '짝','짝','짝','짝','짝','짝']
+            num=random.choice(list)
+            print('당신의 답은?: ',num)
+            answer = '짝'
+            if num == answer:
+                print("맞았습니다!")
+            else:
+                print('Game over!')
+                return 1
+                
+            
+    else:
+        list=[i,i,i,i,i,i,i,i,i, '짝']
+        num=random.choice(list)
+        print('당신의 답은?: ',num)
+        if i == num:
+            #print(num)
+            print("맞았습니다!")
+        else:
+            print('Game over!')
+            return 1
+    
+    
     
 #################################################
 print("ALCOHOL GAME")
@@ -72,7 +129,7 @@ if start == 'y':
     
     for i in range(playerNum):
         
-        x=player(friends[i],random(1,5),0)
+        x=player(friends[i],random.randint(1,5),0)
         playerstatus.append(x)
         print("오늘 함께 취할 친구는", x.name,"입니다!","(치사량:", x.dead,")")
     print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
@@ -90,17 +147,64 @@ if start == 'y':
         choice = input("오늘의 게임은??? (1-5번 중에 골라주세요) : ")
         if choice == "1":
         #김태윤
+            continue
 
         elif choice == "2":
+            continue
         #장명지    
 
         elif choice == "3":
         #강수경
-
+            print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+            
+            print(    
+            
+"""  ____ ___  ___  _   ____ ___  ___  _   ____ ___  ___  _   ____ ___  ___  _ 
+<__ /| __>| . || | <__ /| __>| . || | <__ /| __>| . || | <__ /| __>| . || |
+ <_ \| . \`_  /|_/  <_ \| . \`_  /|_/  <_ \| . \`_  /|_/  <_ \| . \`_  /|_/
+<___/`___/ /_/ <_> <___/`___/ /_/ <_> <___/`___/ /_/ <_> <___/`___/ /_/ <_>""")
+            
+            print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+            print("순서대로 숫자를 외치되 숫자안에 3,6,9 가 들어가면 박수를 한번만 쳐주세요!")
+            
+            three_game_seq=[i for i in range(playerNum+1)]
+            three_random=random.sample(three_game_seq,playerNum+1)
+            three_save=[playerstatus[three_random[i]].name for i in range(playerNum+1)]
+            
+            print("게임 순서는 ",end='')
+            for i in range(playerNum+1):
+                print(three_save[i],end=' ')
+            print("순으로 진행됩니다!") 
+            i=1
+            three_flag=0
+            while True:
+                
+                for j in range(playerNum+1):
+                    print(three_save[j],"의 순서 입니다!")
+                    if three_save[j]==playerName:
+                        
+                        if(three_six_nine_player(i)==1):
+                            playerstatus[three_random[j]].cur=playerstatus[three_random[j]].cur+1
+                            break
+                        i=i+1
+                    
+                        
+                    else:
+                        
+                        if(three_six_nine_computer(i)==1):
+                            playerstatus[three_random[j]].cur=playerstatus[three_random[j]].cur+1
+                            
+                            break
+                        i=i+1
+                else:
+                    continue
+                break
+      
         elif choice == "4":
+            continue
         #황성하
 
-        elif choice == "5":
+        elif choice == "5":continue
         #신승현
             
         else:
@@ -113,3 +217,6 @@ if start == 'y':
 # 'n' 을 선택, 게임이 시작되지 않습니다
 else:
     exit()
+    
+    
+
