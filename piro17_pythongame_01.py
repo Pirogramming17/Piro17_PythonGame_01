@@ -132,6 +132,8 @@ if start == 'y':
                         if i == floorLimit - 1:
                             # we are at the end floor ... 'currPerson' lost
                             # TODO: now update currPerson's cur drink status
+                            print(currPerson, '님은 저희와 함께 갈 수 없게 되었습니다... ㅎ 한잔하세요!')
+                            currPerson.cur += 1
 
         elif choice == "2":
         #장명지
