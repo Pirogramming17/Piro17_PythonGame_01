@@ -317,6 +317,7 @@ if start == 'y':
             print("지하철 ♪(´ε｀*)  지하철  ♪(´ε｀*)  지하철  ♪(´ε｀*)  지하철  ♪(´ε｀*)")
             subwayPlayerNum = selectNumber;
             answer = []
+            computerAnswer = []
             if subwayPlayerNum == 0:
                 while True :
                     try:
@@ -340,15 +341,15 @@ if start == 'y':
             soup = bs(res.text, 'xml')
             for i in soup.find_all('STATION_NM'):
                 answer.append(i.text);
+                computerAnswer.append(i.text);
 
 
-            computerAnswer = answer;
-            url = "http://openapi.seoul.go.kr:8088/456468477370693137374e75764b54/xml/SearchSTNBySubwayLineInfo/1/97/ / /{line}호선".format(line=(line%9)+1)
+            url = "http://openapi.seoul.go.kr:8088/456468477370693137374e75764b54/xml/SearchSTNBySubwayLineInfo/1/20/ / /{line}호선".format(line=((line%9)+1))
             res = requests.get(url)
             soup = bs(res.text, 'xml')
             for i in soup.find_all('STATION_NM'):
                 computerAnswer.append(i.text);
-
+                
 
             already=[]
             while True :
@@ -448,18 +449,22 @@ if start == 'y':
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~            
             ''')
             print("👼👼👼   아 신난다 아 재미난다 더게임오브데스!!!!    👼👼👼")
-            game_num_ssh = int(input("2 이상 8 이하의 정수를 외쳐 주세요! "))
-    
+            if selectNumber == 0:
+                game_num_ssh = int(input("2 이상 8 이하의 정수를 외쳐 주세요! "))
+            else:
+                game_num_ssh = random.randint(2,8)
+            print("선택한 숫자는 ",game_num_ssh,"입니다!")
+
             point_ssh = []
 
             i_ssh = 0
             while i_ssh+1 <= playerNum + 1:
                 p_num_ssh = random.randint(1, playerNum + 1)
-                if p_num_ssh == i+1:
+                if p_num_ssh == i_ssh+1:
                     continue
                 else:
                     point_ssh.append(p_num_ssh)
-                i_ssh += 1
+                    i_ssh += 1
                         
 
             for index, value in enumerate(point_ssh):
@@ -468,7 +473,7 @@ if start == 'y':
             i_ssh = 0
             count_ssh = 1
             while count_ssh <= game_num_ssh:
-                print(f'{playerstatus[i_ssh].name} : {i+1}! 🧨 👉 {playerstatus[point_ssh[i_ssh]-1].name}')
+                print(f'{playerstatus[i_ssh].name} : {count_ssh}! 🧨 👉 {playerstatus[point_ssh[i_ssh]-1].name}')
                 if count_ssh == game_num_ssh:
                     print(playerstatus[i_ssh].name + ' : ' + '으악😵')
                     playerstatus[i_ssh].cur += 1
