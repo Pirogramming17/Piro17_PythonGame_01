@@ -102,7 +102,7 @@ def three_six_nine_computer(i):
             return 1
     
     
-def Updown(playerstatus):
+def Updown(playerstatus,playerIndex):
     print('''
 ------------------------------------------------------------------------------
  _   _  ___    ___    _____  _       _  _   _     ___    _____         ___   
@@ -122,7 +122,7 @@ def Updown(playerstatus):
     updownHigh = 50;
     updownLow = 1;
     updown = 0;
-    updownPlayer = random.randint(0, len(players) - 1);
+    updownPlayer = playerIndex
     while True:
         if updownPlayer == 0:
             try:
@@ -432,7 +432,7 @@ if start == 'y':
       
         elif choice == "4":
         #황성하
-            updownResult = Updown(playerstatus);
+            updownResult = Updown(playerstatus,selectNumber);
             playerstatus[updownResult].cur += 1;
 
         elif choice == "5":
